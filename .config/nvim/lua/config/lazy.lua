@@ -21,7 +21,7 @@ require("lazy").setup({
     -- import/override with your plugins
     { import = "plugins" },
     -- ここの下の行を追加
-    { import = "lazyvim.plugins.extras.ui.mini-animate" },
+    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
     {
       "smoka7/hop.nvim",
       version = "*",
