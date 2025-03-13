@@ -44,9 +44,12 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 . ~/z/z.sh
 alias j='z'
 
-# anyenv
-export PATH="$HOME/.anyenv/bin:$PATH"
-eval "$(anyenv init -)"
+# # anyenv
+# export PATH="$HOME/.anyenv/bin:$PATH"
+# eval "$(anyenv init -)"
+
+# mise
+export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 # lazygit
 alias lg='lazygit'
