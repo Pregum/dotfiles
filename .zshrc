@@ -5,6 +5,7 @@ export PATH=/usr/local/bin:$PATH
 export PATH=$PATH:$HOME/.pub-cache/bin
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
+
 ## [Completion]
 ## Completion scripts setup. Remove the following line to uninstall
 [[ -f $HOME/.dart-cli-completion/zsh-config.zsh ]] && . $HOME/.dart-cli-completion/zsh-config.zsh || true
@@ -14,7 +15,9 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 ## 以下は[こちら](https://qiita.com/tatsugon14/items/7a7390f8d45b276fcbb1) を参考に記載している
 
 # zplug
-source ~/.zplug/init.zsh
+export ZPLUG_HOME=/opt/homebrew/opt/zplug
+source $ZPLUG_HOME/init.zsh
+# source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # 非同期処理できるようになる
 zplug "mafredri/zsh-async"
