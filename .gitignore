@@ -11,6 +11,7 @@
 ### not ignore ###
 !/.zshrc
 !/.zshenv
+!/.zprofile
 !/.zfunc/
 /.zfunc/**  # ディレクトリは管理したいけど中身はいらないときはこんな感じ
 !/.zsh/
