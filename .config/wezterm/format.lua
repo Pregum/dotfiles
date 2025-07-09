@@ -20,7 +20,38 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
 
   local bg = hover and HOVER_COLOR or BACK_COLOR
   local zoomed = tab.active_pane.is_zoomed and '🔎 ' or ' '
+  
+  -- カレントディレクトリを取得
+  local cwd = tab.active_pane.current_working_dir
+  local cwd_string = ''
+  if cwd then
+    local full_path = cwd.file_path
+    -- ホームディレクトリを ~ に置換
+    full_path = full_path:gsub('^' .. wezterm.home_dir, '~')
+    
+    -- 最後のディレクトリ名を取得
+    local last_dir = full_path:match("([^/]+)/?$") or full_path
+    
+    -- 10文字以内の場合は2階層分を表示
+    if #last_dir <= 10 then
+      -- パスを/で分割
+      local parts = {}
+      for part in full_path:gmatch("[^/]+") do
+        table.insert(parts, part)
+      end
+      
+      -- 最後の2つを結合
+      if #parts >= 2 then
+        cwd_string = parts[#parts - 1] .. '/' .. parts[#parts]
+      else
+        cwd_string = last_dir
+      end
+    else
+      cwd_string = last_dir
+    end
+  end
 
+  -- タブの内容を返す（WezTermが自動的に幅を調整）
   return {
     { Foreground = { Color = SYMBOL_COLOR[index] } },
     { Background = { Color = bg } },
@@ -28,6 +59,6 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
 
     { Foreground = { Color = FONT_COLOR[index] } },
     { Background = { Color = bg } },
-    { Text = tab.active_pane.title },
+    { Text = cwd_string .. '  ' }, -- 余白を追加
   }
 end)
