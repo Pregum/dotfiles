@@ -24,10 +24,14 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
   -- カレントディレクトリを取得
   local cwd = tab.active_pane.current_working_dir
   local cwd_string = ''
+  local depth = 0
   if cwd then
     local full_path = cwd.file_path
     -- ホームディレクトリを ~ に置換
     full_path = full_path:gsub('^' .. wezterm.home_dir, '~')
+    
+    -- 階層の深さをカウント（/の数を数える）
+    _, depth = full_path:gsub('/', '')
     
     -- 最後のディレクトリ名を取得
     local last_dir = full_path:match("([^/]+)/?$") or full_path
@@ -55,7 +59,7 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
   return {
     { Foreground = { Color = SYMBOL_COLOR[index] } },
     { Background = { Color = bg } },
-    { Text = HEADER .. zoomed },
+    { Text = HEADER .. '[' .. tostring(depth) .. '] ' .. zoomed },
 
     { Foreground = { Color = FONT_COLOR[index] } },
     { Background = { Color = bg } },
