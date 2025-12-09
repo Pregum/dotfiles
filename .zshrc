@@ -79,3 +79,15 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # export PATH=$PATH:$HOME/.pub-cache/bin
 export PATH=$PATH:$HOME/fvm/default/bin
 
+# WezTerm用: ディレクトリ変更時にgitブランチとリポジトリ名をuser varにセット
+function _wezterm_set_user_vars() {
+  local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  local repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null)
+  printf "\033]1337;SetUserVar=git_branch=%s\007" $(echo -n "$branch" | base64)
+  printf "\033]1337;SetUserVar=git_repo=%s\007" $(echo -n "$repo" | base64)
+}
+
+autoload -U add-zsh-hook
+add-zsh-hook chpwd _wezterm_set_user_vars
+add-zsh-hook precmd _wezterm_set_user_vars
+

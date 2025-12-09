@@ -101,6 +101,11 @@ end
 wezterm.on('update-status', function(window, pane)
     LeftUpdate(window, pane)
     RightUpdate(window, pane)
+
+    -- タブタイトルを更新（Cmd+Pのランチャー用）
+    if UpdateTabTitle then
+        UpdateTabTitle(window, pane)
+    end
     
     -- テーマ切り替え処理（wezterm.luaから直接実行）
     if _G.theme_override_themes then

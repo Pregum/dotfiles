@@ -1,59 +1,96 @@
 local wezterm = require("wezterm")
-local config = wezterm.config_builder()
 
-require("status")
-require("format")
+require("wezterm")
+require("format")  -- format.luaを先に読み込む（UpdateTabTitle関数を定義）
+require("status")  -- status.luaでUpdateTabTitleを使用
 
--- 基本設定
-config.color_scheme = "Catppuccin Mocha"
-config.window_background_opacity = 0.95
-config.font = wezterm.font("HackGen Console NF")
-config.font_size = 14.0
-config.use_fancy_tab_bar = false
-config.status_update_interval = 1000
-config.tab_bar_at_bottom = false
-config.tab_and_split_indices_are_zero_based = false
-config.tab_max_width = 1000
+local config = {
+	color_scheme = "Catppuccin Mocha",
+	window_background_opacity = 0.93,
+	-- font = require("wezterm").font("Fira Code"),
+	font = require("wezterm").font("Hack Nerd Font"),
+	font_size = 14.0,
+	window_frame = {
+		-- デフォルト値のままなので記述しなくても平気ですが、後で変えたくなった時にわかりやすいので。
+		-- font = wezfont 'Roboto',
+		-- font = require('wezterm').font("Fira Code"),
+		font = require("wezterm").font("Hack Nerd Font"),
+		-- サイズはだいぶ小さくしちゃってます。
+		-- font_size = 8.0,
+	},
+	keys = {
+		-- cmd + d で水平分割
+		{
+			key = "d",
+			mods = "CMD",
+			action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+		},
+		-- cmd + shift + d で垂直分割
+		{ key = "d", mods = "CMD|SHIFT", action = wezterm.action.SplitPane({ direction = "Down" }) },
 
--- キーバインド設定
-config.keys = {
-	{
-		key = "d",
-		mods = "CMD",
-		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+		-- cmd + w で現在のパネルを閉じる
+		{ key = "w", mods = "CMD", action = wezterm.action.CloseCurrentPane({ confirm = true }) },
+		-- { key = "w", mods = "CTRL", action = wezterm.action.CloseCurrentPane { confirm = true } },
+		-- cmd + [ で左または上のパネルに移動
+		{
+			key = "[",
+			mods = "CMD",
+			action = wezterm.action.ActivatePaneDirection("Prev"), -- 左または上の方向に移動
+		},
+		-- cmd + ] で右または下のパネルに移動
+		{
+			key = "]",
+			mods = "CMD",
+			action = wezterm.action.ActivatePaneDirection("Next"), -- 右または下の方向に移動
+		},
+		-- cmd + shift + [ で上のパネルに移動
+		{
+			key = "{",
+			mods = "CMD",
+			-- action = wezterm.action.ActivatePaneDirection 'Up',
+			action = wezterm.action.ActivateTabRelative(-1),
+		},
+		-- cmd + shift + ] で下のパネルに移動
+		{
+			key = "}",
+			mods = "CMD",
+			-- action = wezterm.action.ActivatePaneDirection 'Down',
+			action = wezterm.action.ActivateTabRelative(1),
+		},
+		-- ここに追加する
+		{
+			key = "p",
+			mods = "CMD",
+			action = wezterm.action.ShowLauncherArgs({
+				flags = "TABS|FUZZY",
+			}),
+		},
 	},
-	{ key = "d", mods = "CMD|SHIFT", action = wezterm.action.SplitPane({ direction = "Down" }) },
-	{ key = "w", mods = "CMD", action = wezterm.action.CloseCurrentPane({ confirm = true }) },
-	{
-		key = "[",
-		mods = "CMD",
-		action = wezterm.action.ActivatePaneDirection("Prev"),
-	},
-	{
-		key = "]",
-		mods = "CMD",
-		action = wezterm.action.ActivatePaneDirection("Next"),
-	},
-	{
-		key = "{",
-		mods = "CMD",
-		action = wezterm.action.ActivateTabRelative(-1),
-	},
-	{
-		key = "}",
-		mods = "CMD",
-		action = wezterm.action.ActivateTabRelative(1),
-	},
+	-- keys = {
+	--   -- cmd + d で垂直方向に新しいペインを開く
+	--   {key="d", mods="CMD", action=wezterm.action.SplitPane{direction="Down"}},
+
+	--   -- cmd + shift + d で水平方向に新しいペインを開く（必要に応じて）
+	--   {key="d", mods="CMD|SHIFT", action=wezterm.action.SplitPane{direction="Right"}},
+	-- },
+	use_fancy_tab_bar = false,
+	-- skip_close_confirmation_for_panes_with_processes = false,
+	status_update_interval = 1000,
 }
 
-config.enable_tab_bar = true
-
--- テーマ切り替え機能を直接update-statusに追加
-_G.theme_override_themes = {
-	enhance = "Tokyo Night",
-	review = "Solarized (light) (terminal.sexy)",
-	["develop-lite"] = "GruvboxDark",
-	sandbox = "Dracula",
+-- アクティブなペインを強調表示
+config.inactive_pane_hsb = {
+	saturation = 0.4,
+	brightness = 0.5,
 }
+
+-- 分割線の色を目立つオレンジ色に設定
+config.colors = {
+	split = "#ff8800",
+}
+
+-- ペインの境界線を太くして目立たせる
+config.pane_focus_follows_mouse = true
+config.window_decorations = "RESIZE"
 
 return config
