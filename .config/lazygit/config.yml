@@ -1,0 +1,34 @@
+keybinding:
+  universal:
+    diffingMenu: <disabled>  # 組み込みのW（diffingMenu）を無効化。Ctrl+Eで代替可能
+  worktrees:
+    viewWorktreeOptions: <disabled>
+
+customCommands:
+  # [w] worktreesパネル: gwq add（インタラクティブ）
+  - key: "w"
+    context: "worktrees"
+    description: "Create worktree (gwq add)"
+    command: "/opt/homebrew/bin/gwq add -i"
+    output: "terminal"
+
+  # [w] localBranchesパネル: 選択ブランチでgwq add
+  - key: "w"
+    context: "localBranches"
+    description: "Create worktree for branch (gwq add)"
+    command: "/opt/homebrew/bin/gwq add {{.SelectedLocalBranch.Name}}"
+    output: "terminal"
+
+  # [w] remoteBranchesパネル: 選択リモートブランチでgwq add
+  - key: "w"
+    context: "remoteBranches"
+    description: "Create worktree for remote branch (gwq add)"
+    command: "/opt/homebrew/bin/gwq add {{.SelectedRemoteBranch.Name}}"
+    output: "terminal"
+
+  # [W] グローバル: gwq cdでworktreeに移動
+  - key: "W"
+    context: "global"
+    description: "Switch to worktree (gwq cd)"
+    command: "/opt/homebrew/bin/gwq cd"
+    output: "terminal"
