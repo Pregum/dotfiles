@@ -47,4 +47,16 @@ done
 
 link_to_homedir
 git config --global include.path "~/.gitconfig_shared"
+
+# macOS: lazygit は ~/Library/Application Support/lazygit/ を参照するためシンボリックリンクを作成
+if [[ "$(uname)" == "Darwin" ]]; then
+  local lazygit_macos_dir="$HOME/Library/Application Support/lazygit"
+  local lazygit_config="$HOME/.config/lazygit/config.yml"
+  if [[ -f "$lazygit_config" ]]; then
+    command mkdir -p "$lazygit_macos_dir"
+    command ln -sf "$lazygit_config" "$lazygit_macos_dir/config.yml"
+    command echo "lazygit config linked: $lazygit_macos_dir/config.yml -> $lazygit_config"
+  fi
+fi
+
 command echo -e "\e[1;36m Install completed!!!! \e[m"

@@ -46,12 +46,14 @@ basedir = '~/src'
 
 ### lazygit のキーバインド (`~/.config/lazygit/config.yml`)
 
+> **Note**: macOS では lazygit の設定パスが `~/Library/Application Support/lazygit/` になるため、`install.sh` でシンボリックリンクを自動作成しています。
+
 #### Worktrees パネル
 
 | キー | 動作 |
 |------|------|
-| `n`  | gwq add -i (新規worktree作成 / 組み込みを置き換え) |
-| `w`  | gwq add -i (新規worktree作成) |
+| `n`  | gwq add -b (ブランチ名入力モーダル → 新規worktree作成) |
+| `w`  | gwq add -b (ブランチ名入力モーダル → 新規worktree作成) |
 | `d`  | gwq remove (worktree削除 / fuzzy finder) |
 | `D`  | gwq remove -b (worktree + ブランチ削除) |
 | `s`  | gwq status (全worktreeの状態表示) |

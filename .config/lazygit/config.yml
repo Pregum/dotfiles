@@ -5,58 +5,62 @@ keybinding:
     viewWorktreeOptions: <disabled>
 
 customCommands:
-  # [n] worktreesパネル: gwq addで新規worktree作成（組み込みのgit worktree addを置き換え）
+  # [n] worktreesパネル: gwq addで新規worktree作成（ブランチ名入力モーダル）
   - key: "n"
     context: "worktrees"
-    description: "New worktree (gwq add)"
-    command: "/opt/homebrew/bin/gwq add -i"
-    output: "terminal"
+    description: "New worktree (gwq add -b)"
+    prompts:
+      - type: "input"
+        title: "New branch name:"
+        key: "BranchName"
+    command: "/opt/homebrew/bin/gwq add -b {{.Form.BranchName}}"
 
-  # [w] worktreesパネル: gwq add（インタラクティブ）
+  # [w] worktreesパネル: gwq add（ブランチ名入力モーダル）
   - key: "w"
     context: "worktrees"
-    description: "Create worktree (gwq add)"
-    command: "/opt/homebrew/bin/gwq add -i"
-    output: "terminal"
+    description: "Create worktree (gwq add -b)"
+    prompts:
+      - type: "input"
+        title: "New branch name:"
+        key: "BranchName"
+    command: "/opt/homebrew/bin/gwq add -b {{.Form.BranchName}}"
 
-  # [w] localBranchesパネル: 選択ブランチでgwq add
+  # [w] localBranchesパネル: 選択ブランチでgwq add（プロンプト不要）
   - key: "w"
     context: "localBranches"
     description: "Create worktree for branch (gwq add)"
     command: "/opt/homebrew/bin/gwq add {{.SelectedLocalBranch.Name}}"
-    output: "terminal"
 
-  # [w] remoteBranchesパネル: 選択リモートブランチでgwq add
+  # [w] remoteBranchesパネル: 選択リモートブランチでgwq add（プロンプト不要）
   - key: "w"
     context: "remoteBranches"
     description: "Create worktree for remote branch (gwq add)"
     command: "/opt/homebrew/bin/gwq add {{.SelectedRemoteBranch.Name}}"
-    output: "terminal"
 
   # [d] worktreesパネル: gwq removeでworktreeを削除（fuzzy finder）
   - key: "d"
     context: "worktrees"
     description: "Remove worktree (gwq remove)"
     command: "/opt/homebrew/bin/gwq remove"
-    output: "terminal"
+    output: "subprocess"
 
   # [D] worktreesパネル: gwq removeでworktree+ブランチを削除
   - key: "D"
     context: "worktrees"
     description: "Remove worktree and branch (gwq remove -b)"
     command: "/opt/homebrew/bin/gwq remove -b"
-    output: "terminal"
+    output: "subprocess"
 
   # [W] グローバル: gwq cdでworktreeに移動
   - key: "W"
     context: "global"
     description: "Switch to worktree (gwq cd)"
     command: "/opt/homebrew/bin/gwq cd"
-    output: "terminal"
+    output: "subprocess"
 
   # [s] worktreesパネル: gwq statusで全worktreeの状態を表示
   - key: "s"
     context: "worktrees"
     description: "Show worktree status (gwq status)"
     command: "/opt/homebrew/bin/gwq status"
-    output: "terminal"
+    output: "subprocess"
