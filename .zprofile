@@ -1,5 +1,11 @@
+
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
+
 # for github
-eval "$(ssh-agent -s)"
+# eval "$(ssh-agent -s)"
+# 煩わしいので標準出力にpidのログを表示させないようにする
+eval "$(ssh-agent -s)" >/dev/null
 
 # for homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -38,7 +44,12 @@ alias nvim-conf='nvim ~/.config/nvim/init.vim'
 alias vim-conf='nvim ~/.config/nvim/init.vim'
 
 # key-chain
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+# ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+# ターミナル起動時に毎回ログに表示されているので quietオプションをつける
+if ! ssh-add -l | grep -q "ED25519"; then
+  # ssh-add -q ~/.ssh/id_rsa </dev/null >/dev/null 2>&1
+  ssh-add -q --apple-use-keychain ~/.ssh/id_ed25519 </dev/null >/dev/null 2>&1
+fi
 
 # z
 . ~/z/z.sh
@@ -82,3 +93,29 @@ function ghq-fzf() {
 }
 zle -N ghq-fzf
 bindkey '^]' ghq-fzf
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
+# 
+# ## gh sw list をEscキーで開くキーバインド
+# function switch-worktree() {
+#   local selected=$(gh sw list | fzf --height 40% --reverse --border)
+#   if [ -n "$selected" ]; then
+#     local worktree_path=$(echo "$selected" | awk '{print $1}')
+#     BUFFER="cd $worktree_path"
+#     zle accept-line
+#   fi
+#   zle -R -c
+# }
+# zle -N switch-worktree
+# bindkey '^[' switch-worktree
+
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh"

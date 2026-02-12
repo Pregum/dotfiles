@@ -1,0 +1,10 @@
+# gwq configuration
+# worktreeをghqと同じディレクトリに配置して一元管理する
+
+[naming]
+# ホスト/オーナー/リポジトリ=ブランチ の形式でworktreeを作成
+template = '{{.Host}}/{{.Owner}}/{{.Repository}}={{.Branch}}'
+
+[worktree]
+# ghqと同じルートディレクトリに配置
+basedir = '~/src'

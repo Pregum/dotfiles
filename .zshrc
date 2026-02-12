@@ -1,3 +1,7 @@
+
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
+
 # starship
 eval "$(starship init zsh)"
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
@@ -91,3 +95,32 @@ autoload -U add-zsh-hook
 add-zsh-hook chpwd _wezterm_set_user_vars
 add-zsh-hook precmd _wezterm_set_user_vars
 
+export PATH=$PATH:$GOPATH/bin
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/pregum/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/pregum/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/pregum/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/pregum/google-cloud-sdk/completion.zsh.inc'; fi
+# eval "$(~/.local/bin/mise activate zsh)"
+
+# Enable multi-line editing with Shift+Enter
+# This allows you to enter multi-line commands in the terminal
+bindkey '^J' self-insert  # Ctrl+J for newline
+bindkey '^M' accept-line  # Enter to execute
+
+# Alternative: Enable ZLE (Zsh Line Editor) multi-line mode
+setopt interactivecomments  # Allow comments in interactive mode
+setopt no_hist_ignore_space # Don't ignore commands starting with space
+# export PATH="$PATH:~/src/github.com/Pregum/git-worktree-sync"
+export PATH="$PATH:/Users/pregum/bin"
+export PATH="$HOME/.local/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/pregum/.antigravity/antigravity/bin:$PATH"
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
