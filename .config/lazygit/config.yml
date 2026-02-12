@@ -5,6 +5,13 @@ keybinding:
     viewWorktreeOptions: <disabled>
 
 customCommands:
+  # [n] worktreesパネル: gwq addで新規worktree作成（組み込みのgit worktree addを置き換え）
+  - key: "n"
+    context: "worktrees"
+    description: "New worktree (gwq add)"
+    command: "/opt/homebrew/bin/gwq add -i"
+    output: "terminal"
+
   # [w] worktreesパネル: gwq add（インタラクティブ）
   - key: "w"
     context: "worktrees"
@@ -26,9 +33,30 @@ customCommands:
     command: "/opt/homebrew/bin/gwq add {{.SelectedRemoteBranch.Name}}"
     output: "terminal"
 
+  # [d] worktreesパネル: gwq removeでworktreeを削除（fuzzy finder）
+  - key: "d"
+    context: "worktrees"
+    description: "Remove worktree (gwq remove)"
+    command: "/opt/homebrew/bin/gwq remove"
+    output: "terminal"
+
+  # [D] worktreesパネル: gwq removeでworktree+ブランチを削除
+  - key: "D"
+    context: "worktrees"
+    description: "Remove worktree and branch (gwq remove -b)"
+    command: "/opt/homebrew/bin/gwq remove -b"
+    output: "terminal"
+
   # [W] グローバル: gwq cdでworktreeに移動
   - key: "W"
     context: "global"
     description: "Switch to worktree (gwq cd)"
     command: "/opt/homebrew/bin/gwq cd"
+    output: "terminal"
+
+  # [s] worktreesパネル: gwq statusで全worktreeの状態を表示
+  - key: "s"
+    context: "worktrees"
+    description: "Show worktree status (gwq status)"
+    command: "/opt/homebrew/bin/gwq status"
     output: "terminal"
