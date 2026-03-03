@@ -1,10 +1,22 @@
 # gwq configuration
 # worktreeをghqと同じディレクトリに配置して一元管理する
 
+[finder]
+preview = true
+
 [naming]
 # ホスト/オーナー/リポジトリ=ブランチ の形式でworktreeを作成
 template = '{{.Host}}/{{.Owner}}/{{.Repository}}={{.Branch}}'
 
+[naming.sanitize_chars]
+'/' = '-'
+':' = '-'
+
+[ui]
+icons = true
+tilde_home = true
+
 [worktree]
 # ghqと同じルートディレクトリに配置
-basedir = '~/src'
+auto_mkdir = true
+basedir = '~/Desktop/dev'
